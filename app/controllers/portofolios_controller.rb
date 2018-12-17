@@ -1,4 +1,5 @@
 class PortofoliosController < ApplicationController
+	
 	def index
 		@portfolio_item = Portofolio.all
 	end
@@ -16,7 +17,21 @@ class PortofoliosController < ApplicationController
 			format.html { render :new }
 		  end
 		end
-	  end
+	end
 
+	def edit
+		@portfolio_item = Portofolio.find(params[:id])
+	end
 
-end
+	def update
+		@portfolio_item = Portofolio.find(params[:id])
+		respond_to do |format|
+			if @portfolio_item.update(params.require(:portofolio).permit(:title,:body))
+				format.html { redirect_to portofolios_path, notice: 'The record was successfully updated.' }
+			else
+				format.html { render :edit }
+			end
+		end
+	end
+
+ end
